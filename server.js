@@ -6,6 +6,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import bodyParser from 'body-parser';
 import response from 'express';
+import { Server } from 'http';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,26 +19,62 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static(path.join(__dirname, "client/build")));
 
 
-app.post('/api/loadUserSettings', (req, res) => {
+// app.post('/api/loadUserSettings', (req, res) => {
 
+// 	let connection = mysql.createConnection(config);
+// 	let userID = req.body.userID;
+
+// 	let sql = `SELECT mode FROM user WHERE userID = ?`;
+// 	console.log(sql);
+// 	let data = [userID];
+// 	console.log(data);
+
+// 	connection.query(sql, data, (error, results, fields) => {
+// 		if (error) {
+// 			return console.error(error.message);
+// 		}
+
+// 		let string = JSON.stringify(results);
+// 		//let obj = JSON.parse(string);
+// 		res.send({ express: string });
+// 	});
+// 	connection.end();
+// });
+
+
+
+
+app.post('/api/getMovies', (req, res) => {
 	let connection = mysql.createConnection(config);
-	let userID = req.body.userID;
 
-	let sql = `SELECT mode FROM user WHERE userID = ?`;
-	console.log(sql);
-	let data = [userID];
-	console.log(data);
+	let sql = `SELECT * FROM movies`;
 
-	connection.query(sql, data, (error, results, fields) => {
-		if (error) {
+	connection.query(sql, (error, results) =>{
+		if(error){
 			return console.error(error.message);
 		}
+	let string = JSON.stringify(results);
+	let obj = JSON.parse(string);
 
-		let string = JSON.stringify(results);
-		//let obj = JSON.parse(string);
-		res.send({ express: string });
+	// console.log(obj)
+	res.send(obj);
 	});
-	connection.end();
+	connection.end();	
+});
+
+app.post('/api/addReview', (req, res) => {
+	let connection = mysql.createConnection(config);
+		
+	let insertReviewSQL = `INSERT INTO Review (reviewTitle, reviewContent, reviewScore, id, userID) VALUES (?, ?, ?, ?, ?)`;
+	let insertReviewData = [req.body.reviewTitle, req.body.reviewContent, req.body.reviewScore,req.body.movieId, req.body.userId];
+
+	connection.query(insertReviewSQL, insertReviewData, (error, results, fields) => {
+		if (error) {
+		console.log(error.message);
+		}
+		res.send('Success');
+		connection.end();	
+	});
 });
 
 

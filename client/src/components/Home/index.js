@@ -5,6 +5,8 @@ import { createTheme, ThemeProvider, styled } from '@mui/material/styles'
 import Grid from "@mui/material/Grid";
 import CssBaseline from '@mui/material/CssBaseline';
 import callApiLoadUserSettings from './callApiLoadUserSettings.js';
+import Link from '@mui/material/Link';
+import { useNavigate } from 'react-router-dom';
 const serverURL = "";
 
 
@@ -16,7 +18,7 @@ const theme = createTheme({
 
 
 const Home = () => {
-
+  const navigate = useNavigate();
   const [userID, setUserID] = React.useState(1);
   const [mode, setMode] = React.useState(0);
 
@@ -66,6 +68,7 @@ const Home = () => {
 
           </Typography>
 
+    
         </Grid>
       </Grid>
     </ThemeProvider>
