@@ -8,9 +8,9 @@ import { useNavigate } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { purple } from '@mui/material/colors';
 import Typography from '@mui/material/Typography';
-import Reviews from '../Review';
+import Review from './Review';
 
-const Review = () => {
+const App = () => {
 
     const lightTheme = createTheme({
         palette: {
@@ -49,11 +49,11 @@ const Review = () => {
       </Container>
     </AppBar>
     </ThemeProvider>
-    {/* <Reviews/> */}
+    <Review/>
   </div>
   );
 };
 
-export default Review;
+export default App;
 
 
