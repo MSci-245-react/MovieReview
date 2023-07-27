@@ -106,69 +106,83 @@ const Search = () => {
             <h3 style={{ margin: 2 }}>Search a Movie</h3>
           </Typography>
         </Grid> 
-    <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }} paddingLeft={40}>
-      <Grid item xs={8} md={6}>
-        <label>Search by Movie </label>
-      </Grid>
-      <Grid item xs={10} md={8}>
-        <TextField
-          label="Movie Title"
-          fullWidth
-          value={searchTitle}
-          onChange={handleSearchTitleChange}
-        />
-      </Grid>
-      <Grid item xs={10} md={8}>
-        <TextField
-          label="Director Name"
-          fullWidth
-          value={searchDirector}
-          onChange={handleSearchDirectorChange}
-        />
-      </Grid>
-      <Grid item xs={10} md={8}>
-        <TextField
-          label="Actor Name"
-          fullWidth
-          value={searchActor}
-          onChange={handleSearchActorChange}
-        />
-      </Grid>
-      </Grid>
-      <Grid item xs={8} md={6}>
-          <Button variant="contained" style={{ marginLeft: '68%' }} 
-          onClick={handleButtonClick}
-          >
-            Search
-          </Button>
-          <ul>
-        {results.map((movie, index) => (
-          <div key={index}>
-            <p>
-              <strong>Title:</strong> {movie.movieTitle}
-            </p>
-            <p>
-              <strong>Director:</strong> {movie.DirectorNames}
-            </p>
-            {movie.ReviewContents && ( 
-                <p>
-                  <strong>Reviews:</strong>
-                  {movie.ReviewContents.split('\n').map((review, reviewIndex) => (
-                    <span key={reviewIndex}>
-                      {`review${reviewIndex + 1}: ${review}`}
-                      <br />
-                    </span>
-                  ))}
+
+        <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }} paddingLeft={10}>
+  {/* Left side: Input fields */}
+  <Grid item xs={12} md={6}>
+    <Box sx={{ marginBottom: '16px' }}>
+      <label>Movie Title</label>
+    </Box>
+    <TextField
+      label="Movie Title"
+      fullWidth
+      value={searchTitle}
+      onChange={handleSearchTitleChange}
+    />
+
+    <Box sx={{ marginBottom: '16px' }}>
+      <label>Director's Name</label>
+    </Box>
+    <TextField
+      label="Director Name"
+      fullWidth
+      value={searchDirector}
+      onChange={handleSearchDirectorChange}
+    />
+
+    <Box sx={{ marginBottom: '16px' }}>
+      <label>Actor's Name</label>
+    </Box>
+    <TextField
+      label="Actor Name"
+      fullWidth
+      value={searchActor}
+      onChange={handleSearchActorChange}
+    />
+
+    <Button
+      variant="contained"
+      style={{ marginLeft: 'auto', display: 'block', marginTop: '20px' }} 
+      onClick={handleButtonClick}
+    >
+      Search
+    </Button>
+  </Grid>
+
+  {/* Right side: Results */}
+  <Grid item xs={12} md={6} paddingRight={10}>
+    <ul>
+      {results.map((movie, index) => (
+        <div key={index}>
+          <p>
+            <strong>Title:</strong> {movie.movieTitle}
+          </p>
+          <p>
+            <strong>Director:</strong> {movie.DirectorNames}
+          </p>
+          {movie.ReviewContents && (
+            <div style={{ background: '#f0f0f0', padding: '8px', border: '1px solid #ccc', marginBottom: '10px' }}>
+              <strong>Reviews:</strong>
+              {movie.ReviewContents.split('\n').map((review, reviewIndex) => (
+                <p key={reviewIndex} style={{ fontSize: '14px', margin: '4px 0', paddingLeft: '20px' }}>
+                  <span style={{ marginRight: '5px' }}>-</span>
+                  {review}
                 </p>
-              )}
-            <p>
-              <strong>Average Review Score:</strong> {movie.AverageReviewScore}
-            </p>
-            {index !== results.length - 1 && <hr />} {/* Add a horizontal line between each result object */}
-          </div>
-        ))}
-      </ul>
-      </Grid>
+              ))}
+              <p>
+            <strong>Average Review Score:</strong> {movie.AverageReviewScore}
+              </p>
+            </div>
+          )}
+          {index !== results.length - 1 && <hr />} {/* Add a horizontal line between each result object */}
+        </div>
+      ))}
+    </ul>
+  </Grid>
+</Grid>
+
+
+
       {/* {results.map((movie) => (
        <list key={movie.id} value={movie.id}>{results.name}</list>
       ))} */}
