@@ -1,3 +1,4 @@
+// import * as React from 'react';
 import React from 'react';
 import ReviewTitle from './ReviewTitle';
 import ReviewBody from './ReviewBody';
@@ -7,7 +8,7 @@ import { Grid, Typography, Button } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { purple } from '@mui/material/colors';
 
-const Reviews = () => {
+const Review = () => {
   const lightTheme = createTheme({
     palette: {
       mode: 'light',
@@ -17,6 +18,14 @@ const Reviews = () => {
   });
 
   let serverURL = "";
+
+  const initialMovies = [
+    "Pride & Prejudice",
+    "Inception",
+    "The Proposal",
+    "The Green Book",
+    "Frozen"
+  ];
 
   const [movies, setMovies] = React.useState([]);
   const [selectedMovie, setSelectedMovie] = React.useState('');
@@ -197,4 +206,4 @@ const callApiSendReview = async () => {
   );
 };
 
-export default Reviews;
+export default Review;
