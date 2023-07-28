@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -92,9 +92,9 @@ const Search = () => {
                 Review
               </Typography>
             </Button>
-            <Button sx={{ textTransform: 'none' }} onClick={() => navigate('/MyPage')}>
+            <Button sx={{ textTransform: 'none' }} onClick={() => navigate('/Recommendations')}>
               <Typography variant="h5" noWrap style={{ color: '#fff' }}>
-                MyPage
+              Recommendations
               </Typography>
             </Button>
           </Box>

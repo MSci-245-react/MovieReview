@@ -128,6 +128,35 @@ app.post('/api/getFilteredMovies', (req, res) => {
   
 	connection.end();
   });
+
+  app.post('/api/getTopMovies', (req, res) => {
+	let connection = mysql.createConnection(config);
+
+	let sql =
+	`
+	SELECT m.id,
+    m.name AS movieTitle,
+    GROUP_CONCAT(DISTINCT CONCAT(d.first_name, ' ', d.last_name) SEPARATOR ', ') AS DirectorNames,
+    AVG(rv.reviewScore) AS AverageReviewScore
+FROM movies m
+LEFT JOIN movies_directors md ON m.id = md.movie_id
+LEFT JOIN directors d ON md.director_id = d.id
+LEFT JOIN Review rv ON m.id = rv.id
+GROUP BY m.id, m.name
+ORDER BY AverageReviewScore DESC
+LIMIT 5;
+`;
+
+	connection.query(sql, (error, results) =>{
+		if(error){
+			return console.error(error.message);
+		}
+	let string = JSON.stringify(results);
+
+	res.send({ express: string });
+	});
+	connection.end();	
+});
   
 
 
