@@ -36,9 +36,9 @@ const Landing = () => {
                   Review
                 </Typography>
               </Button>
-              <Button sx={{ textTransform: 'none' }} onClick={() => navigate('/MyPage')}>
+              <Button sx={{ textTransform: 'none' }} onClick={() => navigate('/Recommendations')}>
                 <Typography variant="h5" noWrap style={{ color: '#fff' }}>
-                  MyPage
+                Recommendations
                 </Typography>
               </Button>
             </Box>
