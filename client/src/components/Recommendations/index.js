@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { purple } from '@mui/material/colors';
-import Typography from '@mui/material/Typography';
+import { Grid, Typography, Button } from '@mui/material';
 
 const Recommendations = () => {
 
@@ -20,18 +19,19 @@ const Recommendations = () => {
       });
      
   let serverURL = "";
-  const [recommendedMovies, setRecommendedMovies] = useState({});
+  const [recommendedMovies, setRecommendedMovies] = useState([]);
 
   useEffect(() => {
     getTopMovies();
-  }, [recommendedMovies]);
+  },[] );
 
   const getTopMovies = () => {
     callApigetTopMovies()
       .then(res => {
         // console.log(res.express)
         // Assuming res is an object with a "movies" property that holds the array of movies
-        setRecommendedMovies(res.express);
+        let parsed = JSON.parse(res.express)
+        setRecommendedMovies(parsed);
         console.log("Reccomended movies: " + recommendedMovies);
         
       })
@@ -85,20 +85,21 @@ const Recommendations = () => {
         </Toolbar>
       </Container>
     </AppBar>
-        {recommendedMovies.map((movie, index) => (
-        <div key={index}>
-          <p>
-            <strong>Title:</strong> {movie.movieTitle}
-          </p>
-          <p>
-            <strong>Director:</strong> {movie.DirectorNames}
-          </p>
-              <p>
-            <strong>Average Review Score:</strong> {movie.AverageReviewScore}
-              </p>
-          {index !== recommendedMovies.length - 1 && <hr />} {/* Add a horizontal line between each result object */}
-        </div>
-      ))}
+    <Grid container direction="column" spacing={2} alignItems="center">
+      <Grid item>
+        <Typography variant="h3" color="primary">
+          Recommended Movies
+        </Typography>
+      </Grid>
+      {recommendedMovies && 
+        recommendedMovies.map((movie) => (
+          <Grid item key={movie.id}>
+            <Typography variant="h5">Title: {movie.movieTitle}</Typography>
+            <Typography variant="body1">Average Score: {movie.AverageReviewScore}</Typography>
+          </Grid>
+        ))
+     }
+    </Grid>
     </ThemeProvider>
   </div>
   );

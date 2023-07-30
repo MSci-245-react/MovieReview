@@ -79,7 +79,7 @@ const Review = () => {
 
   React.useEffect(() => {
     getMovies();
-  }, [movies]);
+  }, []);
 
   const getSelectedMovieId = () => {
     const selectedMovieObject = movies.find(movie => movie.name === selectedMovie);
@@ -120,7 +120,8 @@ const callApiSendReview = async () => {
   const getMovies = () => {
     callApigetMovies()
     .then(res => {
-      setMovies(res.express);
+      let parsed = JSON.parse(res.express)
+      setMovies(parsed);
       })
     }
 
