@@ -74,6 +74,21 @@ app.post('/api/addReview', (req, res) => {
 	});
 });
 
+app.post('/api/addFeedback', (req, res) => {
+	let connection = mysql.createConnection(config);
+		
+	let insertReviewSQL = `INSERT INTO RecommendationFeedback (watch, reason, movie_id, user_Id) VALUES ( ?, ?, ?, ?)`;
+	let insertReviewData = [req.body.watch, req.body.reason, req.body.movie_Id, req.body.user_Id];
+	console.log("insertReviewData:",insertReviewData)
+	connection.query(insertReviewSQL, insertReviewData, (error, results, fields) => {
+		if (error) {
+		console.log(error.message);
+		}
+		res.send('Success');
+		connection.end();	
+	});
+});
+
 
 
 

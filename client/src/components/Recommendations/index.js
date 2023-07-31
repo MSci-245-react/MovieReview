@@ -6,7 +6,7 @@ import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { purple } from '@mui/material/colors';
-import { Grid, Typography, Button } from '@mui/material';
+import { Grid, FormControl, RadioGroup, FormControlLabel, Radio, Typography, Button} from '@mui/material';
 
 const Recommendations = () => {
 
@@ -20,10 +20,21 @@ const Recommendations = () => {
      
   let serverURL = "";
   const [recommendedMovies, setRecommendedMovies] = useState([]);
+  const [watch, setWatch] = useState();
+  const [userId, setUserId] = React.useState(1);
+  const [reason, setReason] = React.useState();
+  const [selectedMovie, setSelectedMovie] = React.useState([]);
+  const [movieId, setMovieId] = React.useState()
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getTopMovies();
   },[] );
+
+  const handleWatchChange = (event) => {
+    setWatch(event.target.value)
+  }
 
   const getTopMovies = () => {
     callApigetTopMovies()
@@ -32,7 +43,6 @@ const Recommendations = () => {
         // Assuming res is an object with a "movies" property that holds the array of movies
         let parsed = JSON.parse(res.express)
         setRecommendedMovies(parsed);
-        console.log("Reccomended movies: " + recommendedMovies);
         
       })
       .catch(error => {
@@ -51,14 +61,66 @@ const Recommendations = () => {
       }
     });
     const body = await response.json();
-    console.log(body)
+    console.log("body getMovies:", body)
     if (response.status !== 200) throw Error(body.message);
     
     return body;
   }
 
-  const navigate = useNavigate();
+  const callApiSendFeedback = async (selectedMovie) => {
 
+    const url = serverURL + "/api/addFeedback";
+    console.log("api", movieId)
+    const data = {
+       movie_Id: movieId,
+       user_Id: userId, 
+       watch: 0,
+       reason: "new5"
+    }
+    const response = await fetch(url, {
+       method: "POST",
+       headers: {
+         "Content-Type": "application/json",
+       },
+       body: JSON.stringify(data),
+     });
+ 
+     const body = await response.json();
+     if (response.status !== 200) throw Error(body.message);
+     
+     return body;
+   }
+
+
+  const handleButtonClick = async (movie) => {
+    
+    const url = serverURL + "/api/addFeedback";
+    console.log("api", movieId)
+    const data = {
+       movie_Id: movie.id,
+       user_Id: userId, 
+       watch: watch,
+       reason: "hiiii"
+    }
+    const response = await fetch(url, {
+       method: "POST",
+       headers: {
+         "Content-Type": "application/json",
+       },
+       body: JSON.stringify(data),
+     });
+ 
+     const body = await response.json();
+     if (response.status !== 200) throw Error(body.message);
+     
+     return body;
+
+  };
+  
+  React.useEffect(() => {
+    console.log("selectedMovie: ", selectedMovie);
+  }, [selectedMovie]);
+  
   return (
     <div>
     <ThemeProvider theme={lightTheme}>
@@ -96,6 +158,17 @@ const Recommendations = () => {
           <Grid item key={movie.id}>
             <Typography variant="h5">Title: {movie.movieTitle}</Typography>
             <Typography variant="body1">Average Score: {movie.AverageReviewScore}</Typography>
+            
+            <Typography variant="h4" color="primary">Would you watch this?</Typography>
+            <FormControl fullWidth>
+          <RadioGroup name="radio buttons group" onClick={handleWatchChange}>
+            <FormControlLabel value={1} control={<Radio />} label="Yes"/>
+            <FormControlLabel value={0} control={<Radio />} label="No"/>
+          </RadioGroup>
+        </FormControl>
+        <Button variant="contained" onClick={() => handleButtonClick(movie)}>
+          Submit Feedback
+        </Button>
           </Grid>
         ))
      }
