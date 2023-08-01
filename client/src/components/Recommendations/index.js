@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { purple } from '@mui/material/colors';
 import { Grid, Paper, FormControl, RadioGroup, FormControlLabel, Radio, Typography, Button} from '@mui/material';
+import { ConstructionOutlined } from '@mui/icons-material';
 
 const Recommendations = () => {
 
@@ -20,7 +21,8 @@ const Recommendations = () => {
      
   let serverURL = "";
   const [recommendedMovies, setRecommendedMovies] = useState([]);
-  const [watch, setWatch] = useState();
+  const [watch, setWatch] = useState("");
+  const [submittedWatch, setSubmittedWatch] = useState()
   const [userId, setUserId] = React.useState(1);
   const [rating, setRating] = React.useState();
   const [selectedMovie, setSelectedMovie] = React.useState([]);
@@ -71,10 +73,9 @@ const Recommendations = () => {
     return body;
   }
 
-  const handleButtonClick = async (movie) => {
-    
+  const callApiSendFeedback = async(movie) => {
     const url = serverURL + "/api/addFeedback";
-    console.log("api", movieId)
+    console.log("api", movie.id)
     const data = {
        movie_Id: movie.id,
        user_Id: userId, 
@@ -93,7 +94,17 @@ const Recommendations = () => {
      if (response.status !== 200) throw Error(body.message);
      
      return body;
+  }
 
+  const handleButtonClick = (movie) => { 
+    setSubmittedWatch(watch)
+    
+    callApiSendFeedback(movie)
+    .then(res => {
+      setWatch("");
+      console.log("ran then" + watch)    
+      } 
+    )
   };
   
   React.useEffect(() => {
@@ -107,13 +118,18 @@ const Recommendations = () => {
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 1 }}>
-              <Button sx={{ textTransform: 'none' }} onClick={() => navigate('/')}>
+              <Button sx={{ textTransform: 'none' }} onClick={() => navigate('/Recommendations')}>
                 <Typography variant="h5" noWrap style={{ color: '#fff' }}>
-                  Home
+                  Recommendations
                 </Typography>
               </Button>
             </Box>
             <Box>
+            <Button sx={{ textTransform: 'none', marginLeft: '16px' }} onClick={() => navigate('/')}>
+                <Typography variant="h6" noWrap style={{ color: '#fff' }}>
+                  Home
+                </Typography>
+              </Button>
               <Button sx={{ textTransform: 'none', marginLeft: '16px' }} onClick={() => navigate('/Search')}>
                 <Typography variant="h6" noWrap style={{ color: '#fff' }}>
                   Search

@@ -12,6 +12,7 @@ const ReviewTitle = (props) => {
       <Grid item xs={10} md={8}>
         <label>Title your Review</label>
       </Grid>
+      <br></br>
       <Grid item xs={10} md={8}>
         <TextField
           label="Review Title"

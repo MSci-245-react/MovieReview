@@ -12,6 +12,7 @@ const ReviewRating = (props) => {
       <Grid item xs={12} md={8}>
         <label>Rate the Movie</label>
       </Grid>
+      <br></br>
       <Grid item xs={12} md={8}>
         <FormControl>
           <RadioGroup name="radio buttons group" onClick={props.handleRatingChange} value={props.selectedRating}>

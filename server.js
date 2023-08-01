@@ -84,7 +84,7 @@ app.post('/api/addFeedback', (req, res) => {
 		if (error) {
 		console.log(error.message);
 		}
-		res.send('Success');
+		res.send(results);
 		connection.end();	
 	});
 });

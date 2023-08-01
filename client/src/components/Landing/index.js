@@ -22,29 +22,36 @@ const Landing = () => {
   return (
     <div>
       <ThemeProvider theme={lightTheme}>
-      <AppBar position="static">
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <Box sx={{ flexGrow: 1 }}>
-              <Button sx={{ textTransform: 'none' }} onClick={() => navigate('/Search')}>
-                <Typography variant="h5" noWrap style={{ color: '#fff' }}>
+      <AppBar position="static" color="primary">
+          <Container maxWidth="xl">
+            <Toolbar disableGutters>
+              <Box sx={{ flexGrow: 1 }}>
+                <Button sx={{ textTransform: 'none' }} onClick={() => navigate('/')}>
+                  <Typography variant="h5" noWrap style={{ color: '#fff' }}>
+                    Home
+                  </Typography>
+                </Button>
+              </Box>
+              <Box>
+                <Button sx={{ textTransform: 'none', marginLeft: '16px' }} onClick={() => navigate('/Search')}>
+                  <Typography variant="h6" noWrap style={{ color: '#fff' }}>
                   Search
-                </Typography>
-              </Button>
-              <Button sx={{ textTransform: 'none' }} onClick={() => navigate('/Review')}>
-                <Typography variant="h5" noWrap style={{ color: '#fff' }}>
-                  Review
-                </Typography>
-              </Button>
-              <Button sx={{ textTransform: 'none' }} onClick={() => navigate('/Recommendations')}>
-                <Typography variant="h5" noWrap style={{ color: '#fff' }}>
-                Recommendations
-                </Typography>
-              </Button>
-            </Box>
-          </Toolbar>
-        </Container>
-      </AppBar>
+                  </Typography>
+                </Button>
+                <Button sx={{ textTransform: 'none', marginLeft: '16px' }} onClick={() => navigate('/Review')}>
+                  <Typography variant="h6" noWrap style={{ color: '#fff' }}>
+                    Review
+                  </Typography>
+                </Button>
+                <Button sx={{ textTransform: 'none', marginLeft: '16px' }} onClick={() => navigate('/Recommendations')}>
+                  <Typography variant="h6" noWrap style={{ color: '#fff' }}>
+                  Recommendations
+                  </Typography>
+                </Button>
+              </Box>
+            </Toolbar>
+          </Container>
+        </AppBar>
       </ThemeProvider>
     </div>
   );

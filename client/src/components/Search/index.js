@@ -73,13 +73,18 @@ const Search = () => {
           <Container maxWidth="xl">
             <Toolbar disableGutters>
               <Box sx={{ flexGrow: 1 }}>
-                <Button sx={{ textTransform: 'none' }} onClick={() => navigate('/')}>
+                <Button sx={{ textTransform: 'none' }} onClick={() => navigate('/Search')}>
                   <Typography variant="h5" noWrap style={{ color: '#fff' }}>
-                    Home
+                    Search
                   </Typography>
                 </Button>
               </Box>
               <Box>
+              <Button sx={{ textTransform: 'none', marginLeft: '16px' }} onClick={() => navigate('/')}>
+                  <Typography variant="h6" noWrap style={{ color: '#fff' }}>
+                    Home
+                  </Typography>
+                  </Button>
                 <Button sx={{ textTransform: 'none', marginLeft: '16px' }} onClick={() => navigate('/Recommendations')}>
                   <Typography variant="h6" noWrap style={{ color: '#fff' }}>
                     Recommendations
@@ -102,28 +107,32 @@ const Search = () => {
             </Typography>
           </Grid>
           <Grid container columnSpacing={2}>
-            {/* Left side: Input fields */}
+            {/* Left side: Input fields */} 
             <Grid item xs={12} md={6}>
               <Box sx={{ marginBottom: '16px' }}>
                 <label>Movie Title</label>
               </Box>
+
               <TextField label="Movie Title" fullWidth value={searchTitle} onChange={handleSearchTitleChange} />
+              <br></br>
 
               <Box sx={{ marginBottom: '16px' }}>
                 <label>Director's Name</label>
+                <br></br>
               </Box>
+              
               <TextField
                 label="Director Name"
                 fullWidth
                 value={searchDirector}
                 onChange={handleSearchDirectorChange}
               />
-
+                <br></br>
               <Box sx={{ marginBottom: '16px' }}>
                 <label>Actor's Name</label>
               </Box>
               <TextField label="Actor Name" fullWidth value={searchActor} onChange={handleSearchActorChange} />
-
+              <br></br>
               <Button
                 variant="contained"
                 style={{ marginLeft: 'auto', display: 'block', marginTop: '20px' }}
