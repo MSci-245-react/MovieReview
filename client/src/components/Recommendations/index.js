@@ -6,7 +6,7 @@ import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { purple } from '@mui/material/colors';
-import { Grid, FormControl, RadioGroup, FormControlLabel, Radio, Typography, Button} from '@mui/material';
+import { Grid, Paper, FormControl, RadioGroup, FormControlLabel, Radio, Typography, Button} from '@mui/material';
 
 const Recommendations = () => {
 
@@ -22,7 +22,7 @@ const Recommendations = () => {
   const [recommendedMovies, setRecommendedMovies] = useState([]);
   const [watch, setWatch] = useState();
   const [userId, setUserId] = React.useState(1);
-  const [reason, setReason] = React.useState();
+  const [rating, setRating] = React.useState();
   const [selectedMovie, setSelectedMovie] = React.useState([]);
   const [movieId, setMovieId] = React.useState()
 
@@ -34,6 +34,10 @@ const Recommendations = () => {
 
   const handleWatchChange = (event) => {
     setWatch(event.target.value)
+  }
+
+  const handleRatingChange = (event) => {
+    setRating(event.target.value)
   }
 
   const getTopMovies = () => {
@@ -147,95 +151,42 @@ const Recommendations = () => {
         </Toolbar>
       </Container>
     </AppBar>
-    <Grid container direction="column" spacing={2} alignItems="center">
-      <Grid item>
-        <Typography variant="h3" color="primary">
-          Recommended Movies
-        </Typography>
-      </Grid>
-      {recommendedMovies && 
-        recommendedMovies.map((movie) => (
-          <Grid item key={movie.id}>
-            <Typography variant="h5">Title: {movie.movieTitle}</Typography>
-            <Typography variant="body1">Average Score: {movie.AverageReviewScore}</Typography>
-            
-            <Typography variant="h4" color="primary">Would you watch this?</Typography>
-            <FormControl fullWidth>
-          <RadioGroup name="radio buttons group" onClick={handleWatchChange}>
-            <FormControlLabel value={1} control={<Radio />} label="Yes"/>
-            <FormControlLabel value={0} control={<Radio />} label="No"/>
-          </RadioGroup>
-        </FormControl>
-        <Button variant="contained" onClick={() => handleButtonClick(movie)}>
-          Submit Feedback
-        </Button>
-          </Grid>
-        ))
-     }
-    </Grid>
-    </ThemeProvider>
-  </div>
+    <Grid container spacing={2} alignItems="center" justifyContent="center">
+          {recommendedMovies &&
+            recommendedMovies.map((movie) => (
+              <Grid item xs={12} sm={6} md={4} key={movie.id}>
+                <Paper elevation={3} sx={{ p: 2 }}>
+                  <Typography variant="h5">Title: {movie.movieTitle}</Typography>
+                  <Typography variant="body1">Average Score: {movie.AverageReviewScore}</Typography>
+                  <Typography variant="h4" color="primary">
+                    Rate this recommendation
+                  </Typography>
+                  <FormControl fullWidth>
+                    <RadioGroup name={`radio buttons group ${movie.id}`} onClick={handleRatingChange}>
+                      {/* ... (Your rating radio buttons code) */}
+                    </RadioGroup>
+                  </FormControl>
+                  <Typography variant="h4" color="primary">
+                    Would you watch this movie?
+                  </Typography>
+                  <FormControl fullWidth>
+                    <RadioGroup name="radio buttons group" onClick={handleWatchChange}>
+                      {/* ... (Your watch radio buttons code) */}
+                    </RadioGroup>
+                  </FormControl>
+                  <Button variant="contained" onClick={() => handleButtonClick(movie)}>
+                    Submit Feedback
+                  </Button>
+                </Paper>
+              </Grid>
+            ))}
+        </Grid>
+      </ThemeProvider>
+    </div>
   );
 };
 
 export default Recommendations;
-
-
-// import React, { useEffect, useState } from 'react';
-// import { Grid, Typography } from '@mui/material';
-
-// const RecommendedMovies = () => {
-//   const [recommendedMovies, setRecommendedMovies] = useState([]);
-
-//   useEffect(() => {
-//     fetchMovies();
-//   }, []);
-
-//   const fetchMovies = async () => {
-//     try {
-//       // Fetch movie data from the server (Replace "serverURL" with your API endpoint)
-//       const response = await fetch(serverURL + '/api/movies');
-//       const data = await response.json();
-//       // Process the movie data to calculate the average review score for each movie
-//       const moviesWithAvgScore = data.map((movie) => ({
-//         ...movie,
-//         averageScore: calculateAverageScore(movie.reviews),
-//       }));
-//       // Sort the movies based on their average review score in descending order
-//       const sortedMovies = moviesWithAvgScore.sort(
-//         (a, b) => b.averageScore - a.averageScore
-//       );
-//       setRecommendedMovies(sortedMovies);
-//     } catch (error) {
-//       console.error('Error fetching movie data:', error);
-//     }
-//   };
-
-//   const calculateAverageScore = (reviews) => {
-//     if (!reviews || reviews.length === 0) {
-//       return 0;
-//     }
-//     const totalScores = reviews.reduce((sum, review) => sum + review.score, 0);
-//     return totalScores / reviews.length;
-//   };
-
-//   return (
-//     <Grid container direction="column" spacing={2} alignItems="center">
-//       <Grid item>
-//         <Typography variant="h3" color="primary">
-//           Recommended Movies
-//         </Typography>
-//       </Grid>
-//       {recommendedMovies.map((movie) => (
-//         <Grid item key={movie.id}>
-//           <Typography variant="h5">{movie.name}</Typography>
-//           <Typography variant="body1">Average Score: {movie.averageScore}</Typography>
-//         </Grid>
-//       ))}
-//     </Grid>
-//   );
-// };
-
 
 
 
