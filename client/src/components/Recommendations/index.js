@@ -71,31 +71,6 @@ const Recommendations = () => {
     return body;
   }
 
-  const callApiSendFeedback = async (selectedMovie) => {
-
-    const url = serverURL + "/api/addFeedback";
-    console.log("api", movieId)
-    const data = {
-       movie_Id: movieId,
-       user_Id: userId, 
-       watch: 0,
-       reason: "new5"
-    }
-    const response = await fetch(url, {
-       method: "POST",
-       headers: {
-         "Content-Type": "application/json",
-       },
-       body: JSON.stringify(data),
-     });
- 
-     const body = await response.json();
-     if (response.status !== 200) throw Error(body.message);
-     
-     return body;
-   }
-
-
   const handleButtonClick = async (movie) => {
     
     const url = serverURL + "/api/addFeedback";
@@ -104,7 +79,7 @@ const Recommendations = () => {
        movie_Id: movie.id,
        user_Id: userId, 
        watch: watch,
-       reason: "hiiii"
+       rating: rating
     }
     const response = await fetch(url, {
        method: "POST",
@@ -128,58 +103,81 @@ const Recommendations = () => {
   return (
     <div>
     <ThemeProvider theme={lightTheme}>
-    <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Box sx={{ flexGrow: 1 }}>
-            <Button sx={{ textTransform: 'none' }} onClick={() => navigate('/')}>
-              <Typography variant="h5" noWrap style={{ color: '#fff' }}>
-                Landing
-              </Typography>
-            </Button>
-            <Button sx={{ textTransform: 'none' }} onClick={() => navigate('/Search')}>
-              <Typography variant="h5" noWrap style={{ color: '#fff' }}>
-                Search
-              </Typography>
-            </Button>
-            <Button sx={{ textTransform: 'none' }} onClick={() => navigate('/Review')}>
-              <Typography variant="h5" noWrap style={{ color: '#fff' }}>
-                Review
-              </Typography>
-            </Button>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
-    <Grid container spacing={2} alignItems="center" justifyContent="center">
-          {recommendedMovies &&
-            recommendedMovies.map((movie) => (
-              <Grid item xs={12} sm={6} md={4} key={movie.id}>
-                <Paper elevation={3} sx={{ p: 2 }}>
-                  <Typography variant="h5">Title: {movie.movieTitle}</Typography>
-                  <Typography variant="body1">Average Score: {movie.AverageReviewScore}</Typography>
-                  <Typography variant="h4" color="primary">
+      <AppBar position="static" color="primary">
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <Box sx={{ flexGrow: 1 }}>
+              <Button sx={{ textTransform: 'none' }} onClick={() => navigate('/')}>
+                <Typography variant="h5" noWrap style={{ color: '#fff' }}>
+                  Home
+                </Typography>
+              </Button>
+            </Box>
+            <Box>
+              <Button sx={{ textTransform: 'none', marginLeft: '16px' }} onClick={() => navigate('/Search')}>
+                <Typography variant="h6" noWrap style={{ color: '#fff' }}>
+                  Search
+                </Typography>
+              </Button>
+              <Button sx={{ textTransform: 'none', marginLeft: '16px' }} onClick={() => navigate('/Review')}>
+                <Typography variant="h6" noWrap style={{ color: '#fff' }}>
+                  Review
+                </Typography>
+              </Button>
+            </Box>
+          </Toolbar>
+          </Container>
+      </AppBar>
+      <Grid item sx={{ mt: 4, px: 4 }} style={{ position: 'relative' }} paddingLeft={5}>
+
+    <Typography variant="h3" color="primary">
+Top 5 Recommended movies
+    </Typography>
+    </Grid>
+    <Grid container maxWidth="xl" sx={{ mt: 4, px: 4 }}> 
+
+          <Grid container spacing={2} alignItems="center" justifyContent="center">
+            {recommendedMovies &&
+              recommendedMovies.map((movie, index) => (
+                <Grid item xs={12} sm={6} md={4} key={movie.id}>
+                  <Paper elevation={3} sx={{ p: 2, background: '#f0f0f0', border: '1px solid #ccc', mb: 2 }}>
+                  <Typography variant="h4" color="primary" sx={{ fontWeight: 'bold' }}>
+                    {index + 1}. {movie.movieTitle}
+                  </Typography>
+                  <Typography variant="h5" sx={{ fontSize: '18px', color: 'primary', mt: 1 }}>
+                    Average Score: {movie.AverageReviewScore}
+                  </Typography>
+                  <Typography variant="h5" sx={{ color: 'primary', mt: 2 }}>
                     Rate this recommendation
                   </Typography>
                   <FormControl fullWidth>
-                    <RadioGroup name={`radio buttons group ${movie.id}`} onClick={handleRatingChange}>
-                      {/* ... (Your rating radio buttons code) */}
-                    </RadioGroup>
-                  </FormControl>
-                  <Typography variant="h4" color="primary">
+            <RadioGroup
+              name={`radio buttons group ${movie.id}`}
+              onClick={handleRatingChange}
+            >
+            <FormControlLabel value={1} control={<Radio />} label="1" />
+            <FormControlLabel value={2} control={<Radio />} label="2" />
+            <FormControlLabel value={3} control={<Radio />} label="3" />
+            <FormControlLabel value={4} control={<Radio />} label="4" />
+            <FormControlLabel value={5} control={<Radio />} label="5" />
+            </RadioGroup>
+          </FormControl>
+          <Typography variant="h5" sx={{ color: 'primary', mt: 2 }}>
                     Would you watch this movie?
                   </Typography>
-                  <FormControl fullWidth>
-                    <RadioGroup name="radio buttons group" onClick={handleWatchChange}>
-                      {/* ... (Your watch radio buttons code) */}
-                    </RadioGroup>
-                  </FormControl>
-                  <Button variant="contained" onClick={() => handleButtonClick(movie)}>
+            <FormControl fullWidth>
+          <RadioGroup name="radio buttons group" onClick={handleWatchChange}>
+            <FormControlLabel value={1} control={<Radio />} label="Yes"/>
+            <FormControlLabel value={0} control={<Radio />} label="No"/>
+          </RadioGroup>
+        </FormControl>
+        <Button variant="contained" onClick={() => handleButtonClick(movie)}>
                     Submit Feedback
                   </Button>
                 </Paper>
               </Grid>
             ))}
+        </Grid>
         </Grid>
       </ThemeProvider>
     </div>

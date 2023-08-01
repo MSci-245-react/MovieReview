@@ -143,88 +143,91 @@ const callApiSendReview = async () => {
   return (
     <>
       <ThemeProvider theme={lightTheme}>
-      <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Box sx={{ flexGrow: 1 }}>
-            <Button sx={{ textTransform: 'none' }} onClick={() => navigate('/')}>
-              <Typography variant="h5" noWrap style={{ color: '#fff' }}>
-                Landing
-              </Typography>
-            </Button>
-            <Button sx={{ textTransform: 'none' }} onClick={() => navigate('/Search')}>
-              <Typography variant="h5" noWrap style={{ color: '#fff' }}>
-                Search
-              </Typography>
-            </Button>
-            <Button sx={{ textTransform: 'none' }} onClick={() => navigate('/Recommendations')}>
-              <Typography variant="h5" noWrap style={{ color: '#fff' }}>
-              Recommendations
-              </Typography>
-            </Button>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
-        <Grid item xs={10} md={8} style={{ position: 'relative' }} paddingLeft={55}>
-          <Typography variant="h3" color="primary">
-            <h3 style={{ margin: 2 }}>Review a Movie</h3>
+      <AppBar position="static" color="primary">
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <Box sx={{ flexGrow: 1 }}>
+              <Button sx={{ textTransform: 'none' }} onClick={() => navigate('/')}>
+                <Typography variant="h5" noWrap style={{ color: '#fff' }}>
+                  Home
+                </Typography>
+              </Button>
+            </Box>
+            <Box>
+              <Button sx={{ textTransform: 'none', marginLeft: '16px' }} onClick={() => navigate('/Search')}>
+                <Typography variant="h6" noWrap style={{ color: '#fff' }}>
+                  Search
+                </Typography>
+              </Button>
+              <Button sx={{ textTransform: 'none', marginLeft: '16px' }} onClick={() => navigate('/Recommendations')}>
+                <Typography variant="h6" noWrap style={{ color: '#fff' }}>
+                Recommendations
+                </Typography>
+              </Button>
+            </Box>
+          </Toolbar>
+          </Container>
+      </AppBar>
+      <Grid item sx={{ mt: 4, px: 4 }} style={{ position: 'relative' }} paddingLeft={5}>
+
+<Typography variant="h3" color="primary">
+Review a Movie
+</Typography>
+</Grid>
+    <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }} paddingLeft={40}>
+      <MovieSelection movies={movies} selectedMovie={selectedMovie} handleMovieChange={handleMovieChange} isButtonClicked={isButtonClicked}  />
+      <Grid item xs={10} md={8}>
+        {!completed && isButtonClicked && selectedMovie === '' && (
+          <Typography variant="body2" color="error">
+            Select your movie
           </Typography>
-        </Grid> 
-        <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }} paddingLeft={40}>
-          <MovieSelection movies={movies} selectedMovie={selectedMovie} handleMovieChange={handleMovieChange} isButtonClicked={isButtonClicked}  />
-          <Grid item xs={10} md={8}>
-            {!completed && isButtonClicked && selectedMovie === '' && (
-              <Typography variant="body2" color="error">
-                Select your movie
-              </Typography>
-            )}
-          </Grid>
-          <ReviewTitle enteredTitle={enteredTitle} handleTitleChange={handleTitleChange} isButtonClicked={isButtonClicked} />
-          <Grid item xs={10} md={8}>
-            {!completed && isButtonClicked && enteredTitle === '' && (
-              <Typography variant="body2" color="error">
-                Enter your review title
-              </Typography>
-            )}
-          </Grid>
-          <ReviewBody enteredReview={enteredReview} handleReviewChange={handleReviewChange} isButtonClicked={isButtonClicked} />
-          <Grid item xs={10} md={8}>
-            {!completed && isButtonClicked && enteredReview === '' && (
-              <Typography variant="body2" color="error">
-                Enter your review
-              </Typography>
-            )}
-          </Grid>
-          <ReviewRating selectedRating={selectedRating} handleRatingChange={handleRatingChange} isButtonClicked={isButtonClicked} />
-          <Grid item xs={10} md={8}>
-            {!completed && isButtonClicked && selectedRating === '' && (
-              <Typography variant="body2" color="error">
-                Select the rating
-              </Typography>
-            )}
-          </Grid>
-        </Grid>
-        <Grid item xs={8} md={6}>
-          <Button variant="contained" style={{ marginLeft: '68%' }} onClick={handleButtonClick}>
-            Submit
-          </Button>
-          {completed && (
-            <Typography variant="body2" color="success.main" style={{ marginLeft: '68%' }}>
-              <b>Your review has been submitted.</b>
-              <br />
-              Movie: {submittedSelectedMovie}
-              <br />
-              Title: {submittedEnteredTitle}
-              <br />
-              Body: {submittedEnteredReview}
-              <br />
-              Rating: {submittedSelectedRating}
-            </Typography>
-          )}
-        </Grid>
-      </ThemeProvider>
-    </>
+        )}
+      </Grid>
+      <ReviewTitle enteredTitle={enteredTitle} handleTitleChange={handleTitleChange} isButtonClicked={isButtonClicked} />
+      <Grid item xs={10} md={8}>
+        {!completed && isButtonClicked && enteredTitle === '' && (
+          <Typography variant="body2" color="error">
+            Enter your review title
+          </Typography>
+        )}
+      </Grid>
+      <ReviewBody enteredReview={enteredReview} handleReviewChange={handleReviewChange} isButtonClicked={isButtonClicked} />
+      <Grid item xs={10} md={8}>
+        {!completed && isButtonClicked && enteredReview === '' && (
+          <Typography variant="body2" color="error">
+            Enter your review
+          </Typography>
+        )}
+      </Grid>
+      <ReviewRating selectedRating={selectedRating} handleRatingChange={handleRatingChange} isButtonClicked={isButtonClicked} />
+      <Grid item xs={10} md={8}>
+        {!completed && isButtonClicked && selectedRating === '' && (
+          <Typography variant="body2" color="error">
+            Select the rating
+          </Typography>
+        )}
+      </Grid>
+    </Grid>
+    <Grid item xs={8} md={6}>
+      <Button variant="contained" style={{ marginLeft: '68%' }} onClick={handleButtonClick}>
+        Submit
+      </Button>
+      {completed && (
+        <Typography variant="body2" color="success.main" style={{ marginLeft: '68%' }}>
+          <b>Your review has been submitted.</b>
+          <br />
+          Movie: {submittedSelectedMovie}
+          <br />
+          Title: {submittedEnteredTitle}
+          <br />
+          Body: {submittedEnteredReview}
+          <br />
+          Rating: {submittedSelectedRating}
+        </Typography>
+      )}
+    </Grid>
+  </ThemeProvider>
+</>
   );
 };
 
