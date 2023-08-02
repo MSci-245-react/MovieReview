@@ -38,7 +38,6 @@ const Review = () => {
   const [submittedSelectedRating, setSubmittedSelectedRating] = React.useState('');
   const [userId, setUserId] = React.useState(1);
 
-
   const handleMovieChange = (event) => {
     setSelectedMovie(event.target.value);
   };
@@ -91,19 +90,19 @@ const Review = () => {
     }
 
     return null;
-}
+  }
 
-const callApiSendReview = async () => {
-   const url = serverURL + "/api/addReview";
+  const callApiSendReview = async () => {
+    const url = serverURL + "/api/addReview";
 
-   const data = {
+    const data = {
       movieId: getSelectedMovieId(),
-      userId: userId, // Replace with the appropriate user ID
+      userId: userId,
       reviewTitle: enteredTitle,
       reviewContent: enteredReview,
       reviewScore: selectedRating
-   }
-   const response = await fetch(url, {
+    }
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -113,21 +112,19 @@ const callApiSendReview = async () => {
 
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
-    
-    return body;
   }
 
   const getMovies = () => {
     callApigetMovies()
-    .then(res => {
-      let parsed = JSON.parse(res.express)
-      setMovies(parsed);
+      .then(res => {
+        let parsed = JSON.parse(res.express)
+        setMovies(parsed);
       })
-    }
+  }
 
   const callApigetMovies = async () => {
-   const url = serverURL + "/api/getMovies";
-  
+    const url = serverURL + "/api/getMovies";
+
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -138,11 +135,9 @@ const callApiSendReview = async () => {
     if (response.status !== 200) throw Error(body.message);
     return body;
   }
-    
 
   return (
-    <>
-      <ThemeProvider theme={lightTheme}>
+    <ThemeProvider theme={lightTheme}>
       <AppBar position="static" color="primary">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -154,7 +149,7 @@ const callApiSendReview = async () => {
               </Button>
             </Box>
             <Box>
-            <Button sx={{ textTransform: 'none', marginLeft: '16px' }} onClick={() => navigate('/')}>
+              <Button sx={{ textTransform: 'none', marginLeft: '16px' }} onClick={() => navigate('/')}>
                 <Typography variant="h6" noWrap style={{ color: '#fff' }}>
                   Home
                 </Typography>
@@ -166,86 +161,82 @@ const callApiSendReview = async () => {
               </Button>
               <Button sx={{ textTransform: 'none', marginLeft: '16px' }} onClick={() => navigate('/Recommendations')}>
                 <Typography variant="h6" noWrap style={{ color: '#fff' }}>
-                Recommendations
+                  Recommendations
                 </Typography>
               </Button>
             </Box>
           </Toolbar>
-          </Container>
+        </Container>
       </AppBar>
       <Grid item sx={{ mt: 4, px: 4 }} style={{ position: 'relative' }} paddingLeft={5}>
-
-<Typography variant="h3" color="primary">
-Review a Movie
-</Typography>
-</Grid>
-<Grid container spacing={2}   paddingLeft={4} maxWidth="xl" sx={{ mt: 4, px: 4 }}>
-      <Grid item xs={6}   alignItems="center" justifyContent="center">
-    {/* <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }} paddingLeft={40}> */}
-      <MovieSelection movies={movies} selectedMovie={selectedMovie} handleMovieChange={handleMovieChange} isButtonClicked={isButtonClicked}  />
-      <Grid item xs={10} md={8} sm={8}>
-        {!completed && isButtonClicked && selectedMovie === '' && (
-          <Typography variant="body2" color="error">
-            Select your movie
-          </Typography>
-        )}
-       <br></br>
-      </Grid>
-      <ReviewTitle enteredTitle={enteredTitle} handleTitleChange={handleTitleChange} isButtonClicked={isButtonClicked} />
-      </Grid>
-      <Grid item xs={6}>
-      <Grid item xs={10} md={8}>
-        {!completed && isButtonClicked && enteredTitle === '' && (
-          <Typography variant="body2" color="error">
-            Enter your review title
-          </Typography>
-        )}
-      </Grid>
-      <ReviewBody enteredReview={enteredReview} handleReviewChange={handleReviewChange} isButtonClicked={isButtonClicked} />
-      <Grid item xs={10} md={8}>
-        {!completed && isButtonClicked && enteredReview === '' && (
-          <Typography variant="body2" color="error">
-            Enter your review
-          </Typography>
-        )}
-              <br></br>
-      </Grid>
-      <ReviewRating selectedRating={selectedRating} handleRatingChange={handleRatingChange} isButtonClicked={isButtonClicked} />
-      <Grid item xs={10} md={8}>
-        {!completed && isButtonClicked && selectedRating === '' && (
-          <Typography variant="body2" color="error">
-            Select the rating
-          </Typography>
-        )}
-              <br></br>
-      </Grid>
-
-    <Grid item xs={10} md={8}>
-      <Button variant="contained" style={{ marginLeft: '80%' }} onClick={handleButtonClick}>
-        Submit
-      </Button>
-          </Grid>
-          <Grid item xs={10} >
-          {completed && (
-        <Typography variant="body2" color="success.main" style={{ marginLeft: '50%' }}>
-          <b>Your review has been submitted.</b>
-          <br />
-          Movie: {submittedSelectedMovie}
-          <br />
-          Title: {submittedEnteredTitle}
-          <br />
-          Body: {submittedEnteredReview}
-          <br />
-          Rating: {submittedSelectedRating}
+        <Typography variant="h3" color="primary">
+          Review a Movie
         </Typography>
-      )}
       </Grid>
-    </Grid>
-    </Grid>
-   </ThemeProvider>
- </>
+      <Grid container spacing={2} paddingLeft={4} maxWidth="xl" sx={{ mt: 4, px: 4 }}>
+        <Grid item xs={6} alignItems="center" justifyContent="center">
+          <MovieSelection movies={movies} selectedMovie={selectedMovie} handleMovieChange={handleMovieChange} isButtonClicked={isButtonClicked}  />
+          <Grid item xs={10} md={8} sm={8}>
+            {!completed && isButtonClicked && selectedMovie === '' && (
+              <Typography variant="body2" color="error">
+                Select your movie
+              </Typography>
+            )}
+            <br></br>
+          </Grid>
+          <ReviewTitle enteredTitle={enteredTitle} handleTitleChange={handleTitleChange} isButtonClicked={isButtonClicked} />
+        </Grid>
+        <Grid item xs={6}>
+          <Grid item xs={10} md={8}>
+            {!completed && isButtonClicked && enteredTitle === '' && (
+              <Typography variant="body2" color="error">
+                Enter your review title
+              </Typography>
+            )}
+          </Grid>
+          <ReviewBody enteredReview={enteredReview} handleReviewChange={handleReviewChange} isButtonClicked={isButtonClicked} />
+          <Grid item xs={10} md={8}>
+            {!completed && isButtonClicked && enteredReview === '' && (
+              <Typography variant="body2" color="error">
+                Enter your review
+              </Typography>
+            )}
+            <br></br>
+          </Grid>
+          <ReviewRating selectedRating={selectedRating} handleRatingChange={handleRatingChange} isButtonClicked={isButtonClicked} />
+          <Grid item xs={10} md={8}>
+            {!completed && isButtonClicked && selectedRating === '' && (
+              <Typography variant="body2" color="error">
+                Select the rating
+              </Typography>
+            )}
+            <br></br>
+          </Grid>
+
+          <Grid item xs={10} md={8}>
+            <Button variant="contained" style={{ marginLeft: '80%' }} onClick={handleButtonClick}>
+              Submit
+            </Button>
+          </Grid>
+          <Grid item xs={10}>
+            {completed && (
+              <Typography variant="body2" color="success.main" style={{ marginLeft: '50%' }}>
+                <b>Your review has been submitted.</b>
+                <br />
+                Movie: {submittedSelectedMovie}
+                <br />
+                Title: {submittedEnteredTitle}
+                <br />
+                Body: {submittedEnteredReview}
+                <br />
+                Rating: {submittedSelectedRating}
+              </Typography>
+            )}
+          </Grid>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
   );
 };
-
 
 export default Review;
