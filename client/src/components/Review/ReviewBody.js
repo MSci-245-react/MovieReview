@@ -12,6 +12,7 @@ const ReviewBody = (props) => {
       <Grid item xs={12} md={8}>
         <label>Add your Description</label>
       </Grid>
+      <br></br>
       <Grid item xs={12} md={8}>
           <TextField
             id="body of review"

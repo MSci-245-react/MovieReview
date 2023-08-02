@@ -14,6 +14,7 @@ const MovieSelection = (props) => {
       <Grid item xs={10} md={8}>
         <label>Please Select a Movie</label>
       </Grid>
+      <br></br>
       <Grid item xs={10} md={8}>
         <FormControl fullWidth>
           <InputLabel id="select-movie-label">Select a Movie</InputLabel>
