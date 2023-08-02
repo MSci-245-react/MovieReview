@@ -30,7 +30,7 @@ const Landing = () => {
               <Box sx={{ flexGrow: 1 }}>
                 <Button sx={{ textTransform: 'none' }} onClick={() => navigate('/')}>
                   <Typography variant="h5" noWrap style={{ color: '#fff' }}>
-                    Home
+                    Landing
                   </Typography>
                 </Button>
               </Box>

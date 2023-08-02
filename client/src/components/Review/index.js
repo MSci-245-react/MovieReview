@@ -151,7 +151,7 @@ const Review = () => {
             <Box>
               <Button sx={{ textTransform: 'none', marginLeft: '16px' }} onClick={() => navigate('/')}>
                 <Typography variant="h6" noWrap style={{ color: '#fff' }}>
-                  Home
+                  Landing
                 </Typography>
               </Button>
               <Button sx={{ textTransform: 'none', marginLeft: '16px' }} onClick={() => navigate('/Search')}>
